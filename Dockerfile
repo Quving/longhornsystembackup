@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL maintainer="Vinh Ngu (v.ngu@right-basedonscience.de)"
+LABEL maintainer="Vinh Ngu (vinh-ngu@hotmail.com)"
 LABEL createdAt="14.08.2023"
 LABEL updatetAt="14.08.2023"
 
