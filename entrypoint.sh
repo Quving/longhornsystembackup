@@ -2,15 +2,12 @@
 
 set -e
 
+FILE_TEMPLATE='longhornsystembackup.yaml.template'
+FILE_MANIFEST='longhornsystembackup.yaml'
+
 # Check if environment variable $KUBECONFIG is set
 if [ -z "$KUBECONFIG_DATA" ]; then
   echo "Environment variable KUBECONFIG is not set. Exiting."
-  exit 1
-fi
-
-# Check if environment variable $KUBERNETES_MANIFEST_DATA is set
-if [ -z "$MANIFEST_DATA" ]; then
-  echo "Environment variable KUBERNETES_MANIFEST_DATA is not set. Exiting."
   exit 1
 fi
 
@@ -18,8 +15,14 @@ fi
 mkdir -p $HOME/.kube
 echo "$KUBECONFIG_DATA" | base64 -d > $HOME/.kube/config
 
-# Decode and write environment variable $MANIFEST_DATA to file
-echo "$MANIFEST_DATA" | base64 -d > /tmp/k8s-manifest.yaml
+# Replace variables in manifest
+eval "echo \"$(cat $FILE_TEMPLATE)\"" > $FILE_MANIFEST
+
+# Following manifest will be called
+echo "Following manifest will be called:"
+echo
+cat $FILE_MANIFEST
+echo
 
 # Invoke command
-kubectl apply -f /tmp/k8s-manifest.yaml
+kubectl apply -f $FILE_MANIFEST

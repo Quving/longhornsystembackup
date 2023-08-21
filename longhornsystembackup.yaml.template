@@ -1,0 +1,6 @@
+apiVersion: longhorn.io/v1beta2
+kind: SystemBackup
+metadata:
+  name: $(date +"%Y-%m-%d.%H%M%S")
+  namespace: longhorn-system
+
